@@ -64,7 +64,9 @@ else
   mkdir -p "$APT_STATE_DIR/lists/partial"
   mkdir -p "$APT_SOURCELIST_DIR"   # make dir for sources
   cp -f "$BUILD_DIR/Aptfile" "$APT_CACHE_DIR/Aptfile"
-  cat "/etc/apt/sources.list" > "$APT_SOURCES"    # no cp here
+
+  echo "removing postgres repository"
+  cat "/etc/apt/sources.list" | sed -e /postgres/d > "$APT_SOURCES"    # no cp here
   # add custom repositories from Aptfile to sources.list
   # like>>    :repo:deb http://cz.archive.ubuntu.com/ubuntu artful main universe
   if grep -q -e "^:repo:" $BUILD_DIR/Aptfile; then
